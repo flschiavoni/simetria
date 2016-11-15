@@ -1,0 +1,132 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="editor.css">
+<script src="common.js"></script>
+<style>
+canvas{
+    position:absolute;
+    left:0px;
+    top:100px;
+    }
+</style>
+<script>
+
+var horizontal = 1;
+var vertical = 1;
+
+function draw(){
+   var canvas = document.getElementById(canvas_name);
+   var ctx = canvas.getContext('2d');
+
+    sizeX = canvas.width / horizontal;
+    sizeY = canvas.height / vertical;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = document.getElementById("line").value;
+
+    originalX = Math.floor(currX / sizeX) % 2;
+    originalY = Math.floor(currY / sizeY) % 2;
+
+    for (i = 0 ; i < vertical ; i++){
+        for (j = 0 ; j < horizontal ; j++){
+
+            xi = (prevX + (sizeX * j));
+            yi = (prevY + (sizeY * i));
+            xf = (currX + (sizeX * j));
+            yf = (currY + (sizeY * i));
+
+            if (xi >= canvas.width || xf >= canvas.width){
+                xi = xi - canvas.width;
+                xf = xf - canvas.width;
+            }
+
+            if (yi >= canvas.height || yf >= canvas.height){
+                yi = yi - canvas.height;
+                yf = yf - canvas.height;
+            }
+
+            quadrantX = Math.floor(xf / sizeX) % 2;
+            quadrantY = Math.floor(yf / sizeY) % 2;
+
+            if (originalX != quadrantX){
+                floorx = Math.floor(xi / sizeX);
+                xi = ((floorx + 1) * sizeX) - (xi - floorx * sizeX);
+                xf = ((floorx + 1) * sizeX) - (xf - floorx * sizeX);
+            }
+            if (originalY != quadrantY){
+                floory = Math.floor(yi / sizeY);
+                yi = ((floory + 1) * sizeY) - (yi - floory * sizeY);
+                yf = ((floory + 1) * sizeY) - (yf - floory * sizeY);
+            }
+
+
+            ctx.beginPath();
+            ctx.moveTo(xi, yi);
+            ctx.lineTo(xf, yf);
+            ctx.stroke();
+            ctx.closePath();
+
+        }
+    }
+}
+
+
+function divideCanvas(e){
+   horizontal = document.getElementById("horizontal").value;
+   vertical = document.getElementById("vertical").value;
+
+   // Clear the image
+   var canvas = document.getElementById(canvas_name);
+   var ctx = canvas.getContext("2d");
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Clear the background
+   canvas = document.getElementById(canvas_name + "-back");
+   canvas.style.backgroundColor = "#FFF";
+   ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineWidth = 1;
+    initial = 0;
+    ctx.strokeStyle = "#CCC";
+    // Horizontal divisions
+    size = canvas.width / horizontal;
+    for (i = 0 ; i < horizontal ; i++){
+        ctx.beginPath();
+        ctx.moveTo(size * i, 0)
+        ctx.lineTo(size * i, canvas.height);
+        ctx.stroke();
+        }
+    // Vertical divisions
+    size = canvas.height / vertical;
+    for (i = 0 ; i < vertical ; i++){
+        ctx.beginPath();
+        ctx.moveTo(0, size * i)
+        ctx.lineTo(canvas.width, size * i);
+        ctx.stroke();
+        }
+
+    ctx.strokeStyle = "#000";
+}
+
+</script>
+</head>
+<body onload="createEnvironment();">
+Horizontal:<input type="number" id="horizontal" min="2" value="6" onchange="divideCanvas();">
+Vertical:<input type="number" id="vertical" min="2" value="6" onchange="divideCanvas();">
+<a id='downloadImage' onClick='downloadImage();'>Download Image</a>
+<input type="button" value="Clear" onclick="divideCanvas();" />
+<div id="Color">
+    <div class="color-palete" style="background:green;" id="green" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:blue;" id="blue" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:red;" id="red" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:yellow;" id="yellow" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:orange;" id="orange" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:black;" id="black" onclick="setColor(this)"></div>
+</div><div class="color-palete" id="SelectedColor"></div>
+Line: <input type="number" id="line" min="1" value="1">
+Show grid <input type="checkbox" onchange="showGrid();" checked>
+<br />
+<canvas id="myCanvas" style="z-index: 2;"></canvas>
+<canvas id="myCanvas-back" style="z-index: 1;"></canvas>
+<canvas id="myCanvas-2" style="z-index: 0; background-color:white;"></canvas>
+</body>
+</html>

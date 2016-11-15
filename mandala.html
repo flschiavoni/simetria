@@ -1,0 +1,87 @@
+<html>
+<head>
+<script>
+
+var division = 1;
+
+function scalar2polar(x,y){
+    r = Math.sqrt(x * x + y * y);
+    teta = Math.atan2(y, x);
+    return [r,teta];
+    }
+
+function polar2scalar(r, teta){
+    x = r * Math.cos(teta);
+    y = r * Math.sin(teta);
+    return [x,y];
+}
+
+function draw(){
+   var canvas = document.getElementById(canvas_name);
+   var ctx = canvas.getContext('2d');
+   centerx = canvas.width / 2;
+   centery = canvas.height / 2;
+
+    for(i = 0 ; i < division ; i++){
+        ctx.beginPath();
+        radiusIncrement = 2.0 / parseFloat(division) * Math.PI * parseFloat(i);
+
+        polarPrev = scalar2polar(prevX - centerx, prevY - centery);
+        scalarPrev = polar2scalar(polarPrev[0], polarPrev[1] + radiusIncrement);
+
+        polarCurr = scalar2polar(currX - centerx, currY - centery);
+        scalarCurr = polar2scalar(polarCurr[0], polarCurr[1] + radiusIncrement);
+
+        ctx.moveTo(scalarPrev[0] + centerx, scalarPrev[1] + centery);
+        ctx.lineTo(scalarCurr[0] + centerx, scalarCurr[1] + centery);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = document.getElementById("line").value;
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+}
+
+
+function divideCanvas(e){
+   division = document.getElementById("quantity").value;
+   var canvas = document.getElementById(canvas_name);
+   centerx = canvas.width / 2;
+   centery = canvas.height / 2;
+   var ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    ctx.lineWidth = 1;
+    initial = 0;
+    for (i = 0 ; i < division ; i++){
+        ctx.beginPath();
+        ctx.strokeStyle = "#CCC";
+        ctx.arc(centerx, centery, centery, initial, 2.0 / parseFloat(division) * Math.PI * (i + 1));
+        initial = 2.0 / parseFloat(division) * Math.PI * (i + 1);
+        ctx.lineTo(centerx, centery);
+        ctx.stroke();
+        }
+        ctx.strokeStyle = "#000";
+}
+</script>
+<link rel="stylesheet" type="text/css" href="editor.css">
+</head>
+<body onload="createEnvironment();">
+Size:<input type="number" id="quantity" min="2" value="20" onchange="divideCanvas();">
+<a id='downloadImage' onClick='downloadImage();'>Download Image</a>
+<input type="button" value="Clear" onclick="divideCanvas();" />
+<div id="Color">
+    <div class="color-palete" style="background:green;" id="green" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:blue;" id="blue" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:red;" id="red" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:yellow;" id="yellow" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:orange;" id="orange" onclick="setColor(this)"></div>
+    <div class="color-palete" style="background:black;" id="black" onclick="setColor(this)"></div>
+</div><div class="color-palete" id="SelectedColor"></div>
+Line: <input type="number" id="line" min="1" value="1">
+Show grid <input type="checkbox" onchange="showGrid();" checked>
+<br />
+<canvas id="myCanvas" style="z-index: 2;"></canvas>
+<canvas id="myCanvas-back" style="z-index: 1;"></canvas>
+<canvas id="myCanvas-2" style="z-index: 0; background-color:white;"></canvas>
+</body>
+</html>
