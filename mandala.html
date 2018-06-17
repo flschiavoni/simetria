@@ -2,47 +2,12 @@
 <head>
 	<title>Simetria em Mandala</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="editor.css">
 	<script src="common.js"></script>
 
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 	<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<style>
-	html, body{
-		min-height: 100% !important;
-	}
-	#thisCanvas canvas {
-		position: absolute;
-		display: block;
-		height: 100%;
-		width: 100%;
-	}
-	#canvas_options {
-		background-color: #FAFAFA;
-	}
-	.mdl-layout__header {
-		color: #000;
-	}
-	.mdl-layout__header a {
-		color: rgb(63,81,181);
-	}
-	.mdl-layout__header-row .mdl-navigation__link {
-		color: #000;
-	}
-	.mdl-checkbox {
-		width: initial;
-	}
-	.mdl-menu {
-		padding: 0px;
-	}
-	.mdl-layout__header .mdl-layout__drawer-button {
-		color: #000;
-	}
-	.mdl-layout__drawer-button .material-icons {
-		padding: 12px 0px;
-	}
-</style>
+	<link rel="stylesheet" type="text/css" href="editor.css">
 <script>
 	var division = 1;
 
@@ -87,8 +52,8 @@
 	function divideCanvas(e){
 		division = document.getElementById("quantity").value;
 		var canvas = document.getElementById(canvas_name);
-		centerx = canvas.width / 2;
-		centery = canvas.height / 2;
+		centerx = canvas.width / 2.0;
+		centery = canvas.height / 2.0;
 		var ctx = canvas.getContext("2d");
 		ctx.clearRect(0,0,canvas.width, canvas.height);
 		ctx.lineWidth = 1;

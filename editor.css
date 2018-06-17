@@ -137,3 +137,39 @@ div.color-palete{
    width: 10px;
    height: 10px;
 }
+
+/* Old on page style sheet */
+	html, body{
+		min-height: 100% !important;
+	}
+	#thisCanvas canvas {
+		position: absolute;
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+	#canvas_options {
+		background-color: #FAFAFA;
+	}
+	.mdl-layout__header {
+		color: #000;
+	}
+	.mdl-layout__header a {
+		color: rgb(63,81,181);
+	}
+	.mdl-layout__header-row .mdl-navigation__link {
+		color: #000;
+	}
+	.mdl-checkbox {
+		width: initial;
+	}
+	.mdl-menu {
+		padding: 0px;
+	}
+	.mdl-layout__header .mdl-layout__drawer-button {
+		color: #000;
+	}
+	.mdl-layout__drawer-button .material-icons {
+		padding: 12px 0px;
+	}
+

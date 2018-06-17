@@ -31,16 +31,16 @@ function createEnvironment(){
    canvas.addEventListener('touchend', getTouchEnd, false);
    canvas.addEventListener('touchmove', getTouchMove, false);
 
-   canvas.width = window.innerWidth * 0.9;
-   canvas.height = window.innerHeight * 0.9;
+   canvas.width = window.innerWidth * 0.8;
+   canvas.height = window.innerHeight * 0.8;
 
    canvas = document.getElementById(canvas_name + "-back");
-   canvas.width = window.innerWidth * 0.9;
-   canvas.height = window.innerHeight * 0.9;
+   canvas.width = window.innerWidth * 0.8;
+   canvas.height = window.innerHeight * 0.8;
 
    canvas = document.getElementById(canvas_name + "-2");
-   canvas.width = window.innerWidth * 0.9;
-   canvas.height = window.innerHeight * 0.9;
+   canvas.width = window.innerWidth * 0.8;
+   canvas.height = window.innerHeight * 0.8;
 
    divideCanvas();
 }
@@ -85,10 +85,11 @@ function getTouchMove(e){
 
 function getMouseClick(e){
     var canvas = document.getElementById(canvas_name);
+    var rect = canvas.getBoundingClientRect();
     prevX = currX;
     prevY = currY;
-    currX = e.clientX - canvas.offsetLeft;
-    currY = e.clientY - canvas.offsetTop;
+    currX = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    currY = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
     flag = true;
    }
 
